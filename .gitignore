@@ -1,0 +1,10 @@
+# .gitignore
+
+# Ignorar dependências do Node.js
+node_modules
+
+# Ignorar arquivos de ambiente (se você tiver)
+.env
+
+# Ignorar o banco de dados SQLite que está na raiz
+database.sqlite
