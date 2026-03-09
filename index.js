@@ -8,7 +8,7 @@ const express = require('express');
 const cors = require('cors');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
-const { sequelize, Order, Item, User } = require('./src/config/db');
+const { sequelize, Order, Item, User, connectMongo } = require('./src/config/db');
 const { swaggerUi, specs } = require('./docs/swagger');
 
 const app = express();
@@ -462,7 +462,7 @@ app.delete('/order/:orderId', authenticateToken, async (req, res) => {
 sequelize.sync().then(() => {
   app.listen(port, () => {
     console.log(`Servidor rodando em http://localhost:${port}`);
-    console.log(`Documentação Swagger disponível em http://localhost:${port}/api-docs (se configurada)`);
+    console.log(`Documentação Swagger disponível em http://localhost:${port}/api-docs`);
   });
 }).catch(err => {
   console.error('Erro ao sincronizar com o banco de dados:', err);

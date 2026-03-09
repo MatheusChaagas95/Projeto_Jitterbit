@@ -1,5 +1,10 @@
 const { Sequelize, DataTypes } = require('sequelize');
+const { MongoClient } = require('mongodb');
 const path = require('path');
+
+/* =========================
+   SQLITE (Sequelize)
+========================= */
 
 const sequelize = new Sequelize({
   dialect: 'sqlite',
@@ -29,4 +34,40 @@ const User = sequelize.define('User', {
   password: { type: DataTypes.STRING, allowNull: false }
 });
 
-module.exports = { sequelize, Order, Item, User };
+
+/* =========================
+   MONGODB
+========================= */
+
+const mongoUri = "mongodb://localhost:27017";
+const mongoClient = new MongoClient(mongoUri);
+
+let mongoDB;
+
+async function connectMongo() {
+  try {
+    await mongoClient.connect();
+    mongoDB = mongoClient.db("ordersDB");
+    console.log("MongoDB conectado");
+  } catch (error) {
+    console.error("Erro ao conectar no MongoDB:", error);
+  }
+}
+
+function getMongoDB() {
+  return mongoDB;
+}
+
+
+/* =========================
+   EXPORTS
+========================= */
+
+module.exports = {
+  sequelize,
+  Order,
+  Item,
+  User,
+  connectMongo,
+  getMongoDB
+};
